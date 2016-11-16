@@ -1,41 +1,56 @@
 # coding: utf-8
 
-# Использование своих модулей
+# Первая часть интенсива.
+# Игра "Виселица" с простым графическим интерфейсом
                  
 import turtle
 import random
+import sys
 
+# Для Python 2.x нужно раскомментировать следующую строку:
+# import tkSimpleDialog   
+
+
+# Загадываем число
 x = random.randrange(1, 100)
 
 def gotoxy(x,y):
+    ''' Перемещение курсора без оставления следа черепашки
+    '''
     turtle.penup()
     turtle.goto(x,y)
     turtle.pendown()
+
     
 def draw_line(from_x, from_y, to_x, to_y):
+    ''' Рисование линии из точки (from_x, from_y) в точку (to_x, to_y)
+    '''
     gotoxy(from_x, from_y)
-    turtle.goto(to_x, to_y)       
+    turtle.goto(to_x, to_y)     
+
   
 def erase():
-    >>> turtle.home()
->>> turtle.begin_poly()
->>> turtle.fd(100)
->>> turtle.left(20)
->>> turtle.fd(30)
->>> turtle.left(60)
->>> turtle.fd(50)
->>> turtle.end_poly()
+    ''' Стирание указанной области
+    '''
+    turtle.home()
+    turtle.begin_poly()
+    turtle.fd(100)
+    turtle.left(20)
+    turtle.fd(30)
+    turtle.left(60)
+    turtle.fd(50)
+    turtle.end_poly()
   
 
 def draw_gibbet(step):   
-    ''' Виселица
+    ''' Пошаговое рисование виселицы
     '''
     turtle.color("blue")
     if step == 1:
-        # вертикальная
+        # вертикальная линия
         draw_line(-160, -100, -160, 80)        
     elif step == 2:
-        # горизонтальная
+        # горизонтальная линия
         draw_line(-160, 80, -80, 80)
     elif step == 3:
         # косая - ребро жесткости
@@ -64,21 +79,28 @@ def draw_gibbet(step):
         draw_line(-100,-50,-80,-60)
 
 
+# Основной код программы
+
+answer = turtle.textinput("Играть?", "y/n")
+if answer == 'n':
+    sys.exit()
+
 
 gotoxy(-200,250)
 turtle.write("Я загадал число от 1 до 1000.\nПопробуй угадать?", font=("Arial", 18, "normal"))
 turtle.write(x)
 try_count = 0
 
-answer = turtle.textinput("Давать подсказки?", "Y/N")      # из ДЗ
+
+answer = turtle.textinput("Давать подсказки?", "Y/N")
+#tkSimpleDialog.askstring("Нарисовать окружность", "Y/N")       # для 2.x Python
+
 hints = False
 if answer == 'Y':
     hints = True
 
 
 while True:
-    answer = turtle.textinput("Играть?", "Y/N")
-    if answer == 'Y':
 
         number = turtle.numinput("Попробуй угадать", "Число", 0, 0, 100)
         gotoxy(200, 200 - try_count*11)
